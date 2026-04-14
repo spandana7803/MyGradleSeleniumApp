@@ -1,0 +1,36 @@
+pipeline {
+    agent any
+
+    tools {
+        jdk 'JDK'
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git 'https://github.com/spandana7803/MyGradleSeleniumApp.git'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                sh './gradlew build'
+            }
+        }
+
+        stage('Test (Selenium)') {
+            steps {
+                sh './gradlew test'
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Selenium tests passed!'
+        }
+        failure {
+            echo 'Tests failed!'
+        }
+    }
+}
